@@ -89,24 +89,28 @@ public class TP3Formulario extends javax.swing.JFrame {
 
     private void jbRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarseActionPerformed
         // TODO add your handling code here:
-        try{ 
-        String nom =jtNombre.getText().trim().toLowerCase();
-        int pass= Integer.parseInt(jpPass.getText());
-        
-        if(nom.equals("alumno@ulp.edu.ar") && pass==12345678){
-            JOptionPane.showMessageDialog(this,"Bienvenido a la Plataforma =)");
-                }else{
-                        JOptionPane.showMessageDialog(this,"Usuario y/o contraseña incorrectos");
+        try {
+            String nom = jtNombre.getText().trim().toLowerCase();
+            int pass = Integer.parseInt(jpPass.getText());
+
+            if (nom.equals("alumno@ulp.edu.ar") && pass == 12345678) {
+
+                JOptionPane.showMessageDialog(this, "Bienvenido a la Plataforma =)");
+                jtNombre.setText("");
+                jpPass.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
+                jtNombre.setText("");
+                jpPass.setText("");
+            };
+            // si ingresan letras en la contraseña se mostrara un alerta que solo deben ser numeros
+        } catch (NumberFormatException nf) {
+             jtNombre.setText("");
+             jpPass.setText("");
+            JOptionPane.showMessageDialog(this, "¡Contraseña incorrecta! . Ingreso LETRAS y solo pueden ser 8 DIGITOS NUMERICOS");
 
         };
-                // si ingresan letras en la contraseña se mostrara un alerta que solo deben ser numeros
-                }catch(NumberFormatException nf){
-                 JOptionPane.showMessageDialog(this,"¡Contraseña incorrecta! . Ingreso LETRAS y solo pueden ser 8 DIGITOS NUMERICOS");
-
-                };
     }//GEN-LAST:event_jbRegistrarseActionPerformed
-
-   
 
     /**
      * @param args the command line arguments
@@ -141,7 +145,7 @@ public class TP3Formulario extends javax.swing.JFrame {
                 new TP3Formulario().setVisible(true);
             }
         });
-}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

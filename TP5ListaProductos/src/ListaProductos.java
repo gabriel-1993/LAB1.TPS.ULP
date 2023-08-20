@@ -155,7 +155,7 @@ public class ListaProductos extends javax.swing.JFrame {
             String cat = (String) jcbCategoria.getSelectedItem();
             String nom = (String) jtNombre.getText().trim().toUpperCase();
             double prec = Double.parseDouble(jtPrecio.getText().trim());
-
+            //si esta todo vacio o alguna opcion vacia, muestra un cartel
             if (cat.equals("-") || nom.equals("") || prec == 0.0) {
                 JOptionPane.showMessageDialog(this, "Ingrese : Categoria, Nombre Prod y Precio(70.50) ");
                 jtPrecio.setText("");
@@ -163,7 +163,10 @@ public class ListaProductos extends javax.swing.JFrame {
                 jcbCategoria.setSelectedItem("-");
 
             }
+            // creo el objeto nuevo le paso las variables 
             Producto prod = new Producto(cat, nom, prec);
+            //mientras categorya sea distinta a "-" , agrego el producto a la lista,
+            //sino el "-" tambien lo contaba como una categoria
             if (!cat.equals("-")) {
                 cargarDatos(prod);
                 //limpio los campos de los datos anteriores

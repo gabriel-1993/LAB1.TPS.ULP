@@ -92,6 +92,7 @@ public class TP3Formulario extends javax.swing.JFrame {
         try {
             String nom = jtNombre.getText().trim().toLowerCase();
             int pass = Integer.parseInt(jpPass.getText());
+            //getPassword();
 
             if (nom.equals("alumno@ulp.edu.ar") && pass == 12345678) {
 

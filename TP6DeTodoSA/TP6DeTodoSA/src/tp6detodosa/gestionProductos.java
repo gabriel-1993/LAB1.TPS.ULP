@@ -81,15 +81,25 @@ public class gestionProductos extends javax.swing.JInternalFrame {
         btnGuardar.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(0, 0, 255));
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(0, 0, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setForeground(new java.awt.Color(0, 0, 255));
         btnSalir.setText("SALIR");
 
-        btBuscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\TUDS\\Segundo Cuatrimestre 2023\\Lab I\\trabajos practicos\\TP6DeTodoSA\\TP6DeTodoSA\\search.png")); // NOI18N
+        btBuscar.setText("Buscar");
         btBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBuscarActionPerformed(evt);
@@ -137,22 +147,18 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
                         .addComponent(jLabel1)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -184,6 +190,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
         try {
+            int cont = 0;
             int codigo = Integer.parseInt(jtCodigo.getText().trim());
             for (Producto prod : Menu.listaProductos) {
                 if (prod.getCodigo() == codigo) {
@@ -196,7 +203,12 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                     //paso el stock de int a string para setText
                     String stockString = Integer.toString(prod.getStock());
                     jtStock.setText(stockString);
-
+                    cont = cont - 1;
+                }
+                cont = cont + 1;
+                if (Menu.listaProductos.size() == cont) {
+                    borrarCampos();
+                    JOptionPane.showMessageDialog(this, "El codigo: " + codigo + " NO existe, puede registrar un producto con el codigo ingresado ");
                 }
             }
 
@@ -241,10 +253,71 @@ public class gestionProductos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Datos incorrectos o vacios, verifique los datos ingresados");
 
         }
-                borrarCampos();
+        borrarCampos();
 
 
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        try {
+            int codigo = Integer.parseInt(jtCodigo.getText().trim());
+            // el producto se va a modificar solo si el codigo existe y todos los datos estan completos. 
+            for (Producto prod : Menu.listaProductos) {
+                if (prod.getCodigo() == codigo) {
+                    //capturo los campos de texto en variables con el tipo de dato parseado:
+                    String descripcion = jtDescripcion.getText().trim();
+                    Double precio = Double.parseDouble(jtPrecio.getText().trim());
+                    int stock = Integer.parseInt(jtStock.getText().trim());
+                    String categoria = cbRubro.getSelectedItem().toString();
+                    int verificarCodigo = Integer.parseInt(jtCodigo.getText().trim());
+
+                    if (codigo == verificarCodigo) {
+                        if (categoria.equals("- Elija una opcion")) {
+                            JOptionPane.showMessageDialog(this, "Seleccione un Rubro por favor...");
+                        } else {
+                            prod.setDescripcion(descripcion);
+                            prod.setPrecio(precio);
+                            prod.setStock(stock);
+                            //   prod.setRubro(categoria);
+                            JOptionPane.showMessageDialog(this, "Cambios Guardados !");
+                        }
+                    }
+
+                }
+            }
+            String categoria = cbRubro.getSelectedItem().toString();
+            if (categoria.equals("- Elija una opcion")) {
+                JOptionPane.showMessageDialog(this, "Seleccione un Rubro por favor...");
+            }
+        } catch (NumberFormatException nfe) {
+            //si hay datos vacios o datos incorrectos , mostrara un cartel.
+            jtCodigo.setText("");
+            JOptionPane.showMessageDialog(this, "Datos incorrectos o vacios, verifique los datos ingresados");
+        }
+        borrarCampos();
+
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            int codigo = Integer.parseInt(jtCodigo.getText().trim());
+            //busco el producto por el codigo para eliminarlo
+            for (Producto prod : Menu.listaProductos) {
+                if (prod.getCodigo() == codigo) {
+                    //elimino el objeto de la lista
+                    Menu.listaProductos.remove(prod);
+                }
+            }
+        } catch (NumberFormatException nfe) {
+            //si hay datos vacios o datos incorrectos , mostrara un cartel.
+            jtCodigo.setText("");
+            JOptionPane.showMessageDialog(this, "Ingrese el codigo del producto que desea eliminar");
+        }
+        borrarCampos();
+
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -265,11 +338,11 @@ public class gestionProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtPrecio;
     private javax.swing.JTextField jtStock;
     // End of variables declaration//GEN-END:variables
-private void borrarCampos(){
-    jtCodigo.setText("");
-    jtDescripcion.setText("");
-    jtPrecio.setText("");
-    jtStock.setText("");
-    cbRubro.setSelectedIndex(0);
-}
+private void borrarCampos() {
+        jtCodigo.setText("");
+        jtDescripcion.setText("");
+        jtPrecio.setText("");
+        jtStock.setText("");
+        cbRubro.setSelectedIndex(0);
+    }
 }

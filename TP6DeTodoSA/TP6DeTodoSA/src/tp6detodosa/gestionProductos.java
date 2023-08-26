@@ -300,14 +300,21 @@ public class gestionProductos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        boolean eliminar = false;
         try {
             int codigo = Integer.parseInt(jtCodigo.getText().trim());
             //busco el producto por el codigo para eliminarlo
             for (Producto prod : Menu.listaProductos) {
                 if (prod.getCodigo() == codigo) {
-                    //elimino el objeto de la lista
-                    Menu.listaProductos.remove(prod);
+                    eliminar = true;
+                    break;
                 }
+            }
+            if (eliminar == true) {
+                Menu.listaProductos.removeIf(prod -> prod.getCodigo() == codigo);
+                JOptionPane.showMessageDialog(this, "Producto Eliminado");
+            } else {
+                JOptionPane.showMessageDialog(this, "Producto no encontrado");
             }
         } catch (NumberFormatException nfe) {
             //si hay datos vacios o datos incorrectos , mostrara un cartel.

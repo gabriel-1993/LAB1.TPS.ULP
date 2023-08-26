@@ -17,7 +17,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
      * Creates new form gestionProductos
      */
     public gestionProductos() {
-        initComponents() ;
+        initComponents();
     }
 
     /**
@@ -204,7 +204,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                     String precioString = Double.toString(prod.getPrecio());
                     jtPrecio.setText(precioString);
                     //Espera un objeto no lo pude setear
-                    String rubroString= prod.getRubro().toString();
+                    String rubroString = prod.getRubro().toString();
                     cbRubro.setSelectedItem(rubroString);
                     //paso el stock de int a string para setText
                     String stockString = Integer.toString(prod.getStock());
@@ -219,7 +219,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
             }
 
         } catch (NumberFormatException nfe) {
-            jtCodigo.setText("");
+            borrarCampos();
             JOptionPane.showMessageDialog(this, "Ingrese un numero en el código, para realizar la busqueda del producto");
 
         }
@@ -231,9 +231,11 @@ public class gestionProductos extends javax.swing.JInternalFrame {
         try {
             int codigo = Integer.parseInt(jtCodigo.getText().trim());
             // el producto se va agregar solo si el codigo no existe y todos los datos estan completos. 
+            boolean existe = false;
             for (Producto prod : Menu.listaProductos) {
                 if (prod.getCodigo() == codigo) {
                     jtCodigo.setText("");
+                    existe = true;
                     JOptionPane.showMessageDialog(this, "Producto Existente: el código ya esta registrado\n"
                             + "Puede ingresar el código y modificar los datos del producto");
                 }
@@ -246,11 +248,10 @@ public class gestionProductos extends javax.swing.JInternalFrame {
 
             if (categoria.equals("- Elija una opcion")) {
                 JOptionPane.showMessageDialog(this, "Seleccione un Rubro por favor...");
-            } else {
-
+            }
+            if (existe == false) {
                 listaProductos.add(new Producto(codigo, descripcion, precio, stock, Categoria.COMESTIBLE));
                 JOptionPane.showMessageDialog(this, "¡ Producto Agregado !");
-
             }
 
         } catch (NumberFormatException nfe) {
@@ -266,10 +267,15 @@ public class gestionProductos extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
+            boolean datosOk=true;
             int codigo = Integer.parseInt(jtCodigo.getText().trim());
+            if (jtDescripcion.getText().trim().equals("") || jtPrecio.getText().trim().equals("") || jtStock.getText().trim().equals("") || jtStock.getText().trim().equals("")) {
+                datosOk=false;
+                JOptionPane.showMessageDialog(this, "Datos vacios, ingrese todos los datos...");
+            }
             // el producto se va a modificar solo si el codigo existe y todos los datos estan completos. 
             for (Producto prod : Menu.listaProductos) {
-                if (prod.getCodigo() == codigo) {
+                if (prod.getCodigo() == codigo && datosOk==true) {
                     //capturo los campos de texto en variables con el tipo de dato parseado:
                     String descripcion = jtDescripcion.getText().trim();
                     Double precio = Double.parseDouble(jtPrecio.getText().trim());
@@ -284,13 +290,14 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                             prod.setDescripcion(descripcion);
                             prod.setPrecio(precio);
                             prod.setStock(stock);
-                            if(categoria.equalsIgnoreCase("PERFUMERIA")){
-                            prod.setRubro(Categoria.PERFUMERIA);}
-                            if(categoria.equalsIgnoreCase("COMESTIBLE")){
-                            prod.setRubro(Categoria.COMESTIBLE);
+                            if (categoria.equalsIgnoreCase("PERFUMERIA")) {
+                                prod.setRubro(Categoria.PERFUMERIA);
                             }
-                            if(categoria.equalsIgnoreCase("LIMPIEZA")){
-                            prod.setRubro(Categoria.LIMPIEZA);
+                            if (categoria.equalsIgnoreCase("COMESTIBLE")) {
+                                prod.setRubro(Categoria.COMESTIBLE);
+                            }
+                            if (categoria.equalsIgnoreCase("LIMPIEZA")) {
+                                prod.setRubro(Categoria.LIMPIEZA);
                             }
                             JOptionPane.showMessageDialog(this, "Cambios Guardados !");
 
@@ -306,7 +313,10 @@ public class gestionProductos extends javax.swing.JInternalFrame {
         } catch (NumberFormatException nfe) {
             //si hay datos vacios o datos incorrectos , mostrara un cartel.
             jtCodigo.setText("");
-            JOptionPane.showMessageDialog(this, "Datos incorrectos o vacios, verifique los datos ingresados");
+            JOptionPane.showMessageDialog(this, "Datos incorrectos, verifique los datos ingresados");
+        } catch (NullPointerException npe) {
+            JOptionPane.showMessageDialog(this, "Datos vacios, verifique los datos ingresados");
+
         }
         borrarCampos();
 

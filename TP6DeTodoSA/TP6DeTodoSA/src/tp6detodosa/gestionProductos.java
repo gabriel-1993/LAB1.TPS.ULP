@@ -284,8 +284,16 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                             prod.setDescripcion(descripcion);
                             prod.setPrecio(precio);
                             prod.setStock(stock);
-                            cbRubro.setSelectedItem(categoria);
+                            if(categoria.equalsIgnoreCase("PERFUMERIA")){
+                            prod.setRubro(Categoria.PERFUMERIA);}
+                            if(categoria.equalsIgnoreCase("COMESTIBLE")){
+                            prod.setRubro(Categoria.COMESTIBLE);
+                            }
+                            if(categoria.equalsIgnoreCase("LIMPIEZA")){
+                            prod.setRubro(Categoria.LIMPIEZA);
+                            }
                             JOptionPane.showMessageDialog(this, "Cambios Guardados !");
+
                         }
                     }
 

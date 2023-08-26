@@ -17,7 +17,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
      * Creates new form gestionProductos
      */
     public gestionProductos() {
-        initComponents();
+        initComponents() ;
     }
 
     /**
@@ -98,6 +98,11 @@ public class gestionProductos extends javax.swing.JInternalFrame {
 
         btnSalir.setForeground(new java.awt.Color(0, 0, 255));
         btnSalir.setText("SALIR");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btBuscar.setText("Buscar");
         btBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -326,6 +331,11 @@ public class gestionProductos extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        //Ocultamos gestion de productos:
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBuscar;
@@ -345,7 +355,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtPrecio;
     private javax.swing.JTextField jtStock;
     // End of variables declaration//GEN-END:variables
-private void borrarCampos() {
+    private void borrarCampos() {
         jtCodigo.setText("");
         jtDescripcion.setText("");
         jtPrecio.setText("");

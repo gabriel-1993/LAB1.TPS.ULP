@@ -204,7 +204,8 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                     String precioString = Double.toString(prod.getPrecio());
                     jtPrecio.setText(precioString);
                     //Espera un objeto no lo pude setear
-                    cbRubro.setSelectedItem(prod.getRubro());
+                    String rubroString= prod.getRubro().toString();
+                    cbRubro.setSelectedItem(rubroString);
                     //paso el stock de int a string para setText
                     String stockString = Integer.toString(prod.getStock());
                     jtStock.setText(stockString);
@@ -283,7 +284,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                             prod.setDescripcion(descripcion);
                             prod.setPrecio(precio);
                             prod.setStock(stock);
-                            //   prod.setRubro(categoria);
+                            cbRubro.setSelectedItem(categoria);
                             JOptionPane.showMessageDialog(this, "Cambios Guardados !");
                         }
                     }

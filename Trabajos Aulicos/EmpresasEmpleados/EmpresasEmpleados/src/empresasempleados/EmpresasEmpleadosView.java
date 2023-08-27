@@ -1,6 +1,7 @@
 package empresasempleados;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 
 public class EmpresasEmpleadosView extends javax.swing.JFrame {
@@ -11,7 +12,6 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
     public EmpresasEmpleadosView() {
         initComponents();
         //min debe existir 1 empresa para activar los botones 
-        onOffBotones();
     }
 
     @SuppressWarnings("unchecked")
@@ -77,14 +77,17 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
         btnGuardarEmpleado.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         btnGuardarEmpleado.setText("Guardar");
         btnGuardarEmpleado.setEnabled(false);
+        btnGuardarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarEmpleadoActionPerformed(evt);
+            }
+        });
 
         btnMostrarEmpleados.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         btnMostrarEmpleados.setText("Mostrar Empleados");
         btnMostrarEmpleados.setEnabled(false);
 
-        jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jcbEmpresas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija una categoria:", "GERENTE", "JEFE", "ADMINISTRATIVO", "OFICIAL", "AUXILIAR" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,9 +116,7 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
                     .addComponent(jtApellido)
                     .addComponent(jtNombre, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtDocumento)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMostrarEmpleados)))
+                    .addComponent(btnMostrarEmpleados))
                 .addGap(21, 21, 21))
         );
         jPanel1Layout.setVerticalGroup(
@@ -235,9 +236,9 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -250,27 +251,83 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
 
     private void btnCrearEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEmpresaActionPerformed
         try {
-            //guardo en variables por si ingresa alguno vacio ,muestra cartel el catch.
-            String razonSocial = jtRazonSocial.getText().trim().toUpperCase();
-            String cuit = jtCuit.getText().trim();
+            String rsocial = jtRazonSocial.getText().trim().toUpperCase();
+            Empresa emp = new Empresa(jtRazonSocial.getText().trim().toUpperCase(), Integer.parseInt(jtCuit.getText()));
+            //Agrego if, el try catch bloquea el cuit vacio, pero el string de razon social vacio no.
+            if (!rsocial.equals("")) {
+                //si razon social no esta vacia, la comparo en la lista de empresas 
+                if (!empresas.contains(emp)) {
+                    //combo box de empresas
+                    jcbEmpresas.addItem(emp);
+                    jcbEmpresas.setSelectedItem(emp.getRazonSocial());
+                    //agregamos la empresa
+                    empresas.add(emp);
+                    //limpiamos los textFields
+                    jtRazonSocial.setText("");
+                    jtCuit.setText("");
+                    onOffBotones(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: La razon social ya existe");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Error:Ingrese una razon social.");
+
+            }
         } catch (NullPointerException npe) {
-            JOptionPane.showMessageDialog(this, "Dato vacio, ingrese ambos.");
+            JOptionPane.showMessageDialog(this, "Error:Dato vacio, ingrese ambos.");
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "Error:Dato incorrecto, verifique los datos.");
         }
-        Empresa emp = new Empresa(jtRazonSocial.getText().trim().toUpperCase(), Integer.parseInt(jtCuit.getText()));
-        if (!empresas.contains(emp)) {
-            jcbEmpresas.addItem(jtRazonSocial.getText().trim().toUpperCase());
-            empresas.add(emp);
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: La razon social ya existe");
-        }
+
     }//GEN-LAST:event_btnCrearEmpresaActionPerformed
 
-    //para activar o desactivar los botones 
-    private void onOffBotones() {
-        if (empresas.size() > 0) {
-            btnGuardarEmpleado.setEnabled(true);
-            btnMostrarEmpleados.setEnabled(true);
+    private void btnGuardarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEmpleadoActionPerformed
+        try {
+            int docum = Integer.parseInt(jtDocumento.getText().trim());
+            String nom = jtNombre.getText().trim().toUpperCase();
+            String ape = jtApellido.getText().trim().toUpperCase();
+            String cate = jcbCategoria.getSelectedItem().toString();
+            double suel = Double.parseDouble(jtSueldo.getText().trim());
+            Empresa empre = (Empresa) jcbEmpresas.getSelectedItem();
+            //si nombre y apellido no estan vacios...
+            if (!nom.equals("") && !ape.equals("")) {
+                //si seleccionaron una categoria se crea el empleado...
+                if (!cate.equals("Elija una categoria:")) {
+                    Empleado emple = new Empleado(docum, nom, ape, cate, suel, empre);
+                    //ingreso al metodo agregarEmpleado de la clase Empresa para ingresar el empleado
+                    emple.getEmpresa().agregarEmpleado(emple);
+                    JOptionPane.showMessageDialog(this, "Empleado agregado a la lista");
+                    limpiarTextos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error:Debe ingresar una Categoria");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Datos vacios");
+            }
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "Error:Dato incorrecto, verifique los datos.");
+        } catch (NullPointerException npe) {
+            JOptionPane.showMessageDialog(this, "Error:Dato vacio, ingrese todos.");
         }
+    }//GEN-LAST:event_btnGuardarEmpleadoActionPerformed
+
+//para activar o desactivar los botones 
+    private void onOffBotones(boolean onOff) {
+        if (empresas.size() > 0) {
+            btnGuardarEmpleado.setEnabled(onOff);
+            btnMostrarEmpleados.setEnabled(onOff);
+        }
+    }
+//limpar textFields de agregar empleado
+
+    private void limpiarTextos() {
+        jcbCategoria.setSelectedIndex(0);
+        jtApellido.setText("");
+        jtCuit.setText("");
+        jtDocumento.setText("");
+        jtNombre.setText("");
+        jtRazonSocial.setText("");
+        jtSueldo.setText("");
     }
 
     public static void main(String args[]) {
@@ -284,16 +341,24 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpresasEmpleadosView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -304,6 +369,7 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearEmpresa;
@@ -326,7 +392,7 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox<String> jcbCategoria;
-    private javax.swing.JComboBox<String> jcbEmpresas;
+    private javax.swing.JComboBox<Empresa> jcbEmpresas;
     private javax.swing.JTextField jtApellido;
     private javax.swing.JTextField jtCuit;
     private javax.swing.JTextField jtDocumento;

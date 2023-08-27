@@ -26,6 +26,11 @@ public class Empleado {
         this.sueldo=sueldo;
         this.empresa=empresa;
     }
+    //setter para asignar empresa al instanciar empleado
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+    
 
     public int getDni() {
         return dni;

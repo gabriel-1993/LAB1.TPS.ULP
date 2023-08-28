@@ -158,10 +158,10 @@ public class Menu extends javax.swing.JFrame {
         //la colocamos por delante del escritorio para que este no la tape..
         escritorio.moveToFront(gp);  
         JOptionPane.showMessageDialog(this, "Opciones : \n"
-                + "*Puede ingresar un codigo y buscar el producto con la lupa.\n "
-                + "*Ingresar los datos y crear un producto con NUEVO y luego GUARDAR.\n "
-                + "*Ingresar el codigo de un producto existente,modificar datos y grabar los datos nuevos con GUARDAR.\n "
-                + "*Buscar un producto y ELIMINARLO de la lista \n");            
+                + "*BUSCAR:Puede ingresar un codigo y buscar el producto con el boton BUSCAR.\n "
+                + "*NUEVO:Ingresar datos de producto, crearlo y agregarlo a la lista con boton NUEVO.\n "
+                + "*MODIFICAR:ingrese el codigo del producto a modificar,cambie los datos y grabelos con boton GUARDAR.\n "
+                + "*ELIMINAR: ingrese el codigo del producto que desea borrar de la lista, click boton ELIMINAR \n");            
         
 
     }//GEN-LAST:event_jmProductosActionPerformed

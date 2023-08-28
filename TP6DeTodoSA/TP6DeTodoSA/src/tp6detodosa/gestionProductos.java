@@ -267,15 +267,15 @@ public class gestionProductos extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            boolean datosOk=true;
+            boolean datosOk = true;
             int codigo = Integer.parseInt(jtCodigo.getText().trim());
             if (jtDescripcion.getText().trim().equals("") || jtPrecio.getText().trim().equals("") || jtStock.getText().trim().equals("") || jtStock.getText().trim().equals("")) {
-                datosOk=false;
+                datosOk = false;
                 JOptionPane.showMessageDialog(this, "Datos vacios, ingrese todos los datos...");
             }
             // el producto se va a modificar solo si el codigo existe y todos los datos estan completos. 
             for (Producto prod : Menu.listaProductos) {
-                if (prod.getCodigo() == codigo && datosOk==true) {
+                if (prod.getCodigo() == codigo && datosOk == true) {
                     //capturo los campos de texto en variables con el tipo de dato parseado:
                     String descripcion = jtDescripcion.getText().trim();
                     Double precio = Double.parseDouble(jtPrecio.getText().trim());
@@ -304,7 +304,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                         }
                     }
 
-                }
+                } 
             }
             String categoria = cbRubro.getSelectedItem().toString();
             if (categoria.equals("- Elija una opcion")) {

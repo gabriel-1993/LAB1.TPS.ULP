@@ -168,8 +168,9 @@ public class BusquedaPorRubroView extends javax.swing.JInternalFrame {
         jtProductos.setModel(modelo);
 
     }
-    //metodo para mostrar solo lo que se este buscando, este metodo te va ejecutar antes de imprimir la tabla ,para no mostrar datos de mas
-
+    //metodo para mostrar solo lo que se este buscando, 
+    //este metodo te va ejecutar antes de imprimir la tabla ,para no mostrar datos de mas
+    
     private void borrarFilas() {
         //le resto 1 para contar desde 0 la cantidad de filas en la tabla
         int f = jtProductos.getRowCount() - 1;

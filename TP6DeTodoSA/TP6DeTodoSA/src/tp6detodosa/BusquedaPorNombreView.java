@@ -155,7 +155,6 @@ public class BusquedaPorNombreView extends javax.swing.JInternalFrame {
         modelo.addColumn("Precio");
         modelo.addColumn("Stock");
         jtProductos.setModel(modelo);
-
     }
 
     //metodo para mostrar solo lo que se este buscando, este metodo te va ejecutar antes de imprimir la tabla ,para no mostrar datos de mas

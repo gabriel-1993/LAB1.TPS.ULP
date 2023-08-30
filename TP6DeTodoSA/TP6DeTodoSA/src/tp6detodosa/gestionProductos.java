@@ -203,7 +203,6 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                     //paso precio a string para setearlo en el jtPrecio:
                     String precioString = Double.toString(prod.getPrecio());
                     jtPrecio.setText(precioString);
-                    //Espera un objeto no lo pude setear
                     String rubroString = prod.getRubro().toString();
                     cbRubro.setSelectedItem(rubroString);
                     //paso el stock de int a string para setText

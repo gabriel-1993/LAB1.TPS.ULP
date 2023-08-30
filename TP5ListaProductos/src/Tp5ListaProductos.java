@@ -2,7 +2,6 @@
 public class Tp5ListaProductos {
 
     /* Seria TP 3 de la unidad 2, los venia contando desde la unidad 1 por eso esta como TP5*/
-    public static void main(String[] args) {
         /*Ejercicio 3 Unidad 2:
 Crea una aplicación GUI en Java que gestione una lista de productos. La interfaz debe contener los siguientes elementos:
         
@@ -19,6 +18,6 @@ Además, la tabla debe ser actualizada automáticamente cada vez que se agrega u
 Subir proyecto a GitHub y enviar link del repositorio.
 Abierta hasta : 31/08/2023 23:59
          */
-    }
+    
 
 }

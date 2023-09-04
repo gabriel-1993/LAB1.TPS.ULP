@@ -249,7 +249,7 @@ public class gestionProductos extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Seleccione un Rubro por favor...");
             }
             if (existe == false) {
-                listaProductos.add(new Producto(codigo, descripcion, precio, stock, Categoria.COMESTIBLE));
+                listaProductos.add(new Producto(codigo, descripcion, precio, stock, Categoria.valueOf(categoria)));
                 JOptionPane.showMessageDialog(this, "¡ Producto Agregado !");
             }
 

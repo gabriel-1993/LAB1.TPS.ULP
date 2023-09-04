@@ -328,9 +328,12 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
                 if (!cate.equals("Elija una categoria:")) {
                     Empleado emple = new Empleado(docum, nom, ape, cate, suel, empre);
                     //ingreso al metodo agregarEmpleado de la clase Empresa para ingresar el empleado
-                    emple.getEmpresa().agregarEmpleado(emple);
-                    JOptionPane.showMessageDialog(this, "Empleado agregado a la lista");
-                    limpiarTextos();
+                    if (emple.getEmpresa().agregarEmpleado(emple) == true) {
+                        JOptionPane.showMessageDialog(this, "Empleado agregado a la lista");
+                        limpiarTextos();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Error:el DNI ya existe");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this, "Error:Debe ingresar una Categoria");
                 }
@@ -344,7 +347,7 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarEmpleadoActionPerformed
 
-     private void armarCabecera() {
+    private void armarCabecera() {
         modelo.addColumn("DOCUMENTO");
         modelo.addColumn("NOMBRE");
         modelo.addColumn("APELLIDO");
@@ -367,8 +370,8 @@ public class EmpresasEmpleadosView extends javax.swing.JFrame {
             });
         }
     }//GEN-LAST:event_btnMostrarEmpleadosActionPerformed
-   
-      //metodo para mostrar solo lo que se este buscando, este metodo te va ejecutar antes de imprimir la tabla ,para no mostrar datos de mas
+
+    //metodo para mostrar solo lo que se este buscando, este metodo te va ejecutar antes de imprimir la tabla ,para no mostrar datos de mas
     private void borrarFilas() {
         //le resto 1 para contar desde 0 la cantidad de filas en la tabla
         int f = jtEmpleados.getRowCount() - 1;

@@ -9,11 +9,11 @@ public class Empresa {
     private int cuit;
     //lo cambio a protected static para poder acceder desde otra clase 
     protected static ArrayList<Empleado> empleados;
-    
-    public Empresa(String razonSocial,int cuit){
-        this.razonSocial=razonSocial;
-        this.cuit=cuit;
-        this.empleados= new ArrayList<Empleado>();
+
+    public Empresa(String razonSocial, int cuit) {
+        this.razonSocial = razonSocial;
+        this.cuit = cuit;
+        this.empleados = new ArrayList<Empleado>();
     }
 
     public String getRazonSocial() {
@@ -31,14 +31,23 @@ public class Empresa {
     public void setCuit(int cuit) {
         this.cuit = cuit;
     }
-    
+
     //este metodo se ejecuta desde empleado al crear uno nuevo
-     public void agregarEmpleado(Empleado emp){
-        this.empleados.add(emp);
+    public boolean agregarEmpleado(Empleado emp) {
+        boolean agregar = true;
+        for (Empleado elem : empleados) {
+            if (elem.getDni() == emp.getDni()) {
+                agregar = false;
+            }
+        }
+        if (agregar == true) {
+            empleados.add(emp);
+        }
+        return agregar;
     }
-    
-    public void mostrarEmpleados(){
-        for(Empleado elem: empleados){
+
+    public void mostrarEmpleados() {
+        for (Empleado elem : empleados) {
             System.out.println(elem);
         }
     }
@@ -63,7 +72,7 @@ public class Empresa {
 
     @Override
     public String toString() {
-        return  razonSocial  ;
+        return razonSocial;
     }
-     
+
 }
